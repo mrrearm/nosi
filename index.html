@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoSi by Ferdinando De Martino</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: black;
+            padding: 10px;
+        }
+        
+        .title {
+            font-size: 14px;
+            color: cyan;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .question-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .question-number {
+            font-size: 16px;
+            color: white;
+            width: 80px;
+        }
+        
+        .vote-section {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .btn-vote {
+            font-size: 16px;
+            padding: 6px 12px;
+            border: 1px solid;
+            cursor: pointer;
+            background-color: black;
+            border-radius: 3px;
+            min-width: 40px;
+        }
+        
+        .btn-si {
+            color: #90EE90;
+            border-color: #90EE90;
+        }
+        
+        .btn-no {
+            color: red;
+            border-color: red;
+        }
+        
+        .count {
+            font-size: 16px;
+            min-width: 20px;
+            text-align: center;
+        }
+        
+        .count-si {
+            color: #90EE90;
+        }
+        
+        .count-no {
+            color: red;
+        }
+        
+        .totals {
+            margin: 15px 0;
+            font-size: 18px;
+            text-align: center;
+        }
+        
+        .total-si {
+            color: #90EE90;
+            font-weight: bold;
+        }
+        
+        .total-no {
+            color: red;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .btn-action {
+            font-size: 16px;
+            font-weight: bold;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .btn-save {
+            background-color: #90EE90;
+            color: black;
+        }
+        
+        .btn-reset {
+            background-color: yellow;
+            color: black;
+        }
+        
+        .btn-quesiti {
+            background-color: #0d6efd;
+            color: white;
+            margin: 15px auto;
+            display: block;
+        }
+        
+        .quesiti-container {
+            background-color: #222;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 10px;
+            text-align: left;
+            display: none;
+            font-size: 14px;
+        }
+        
+        .quesito {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #444;
+        }
+        
+        .quesito:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .quesito-title {
+            color: cyan;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .quesito-text {
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">NoSi by Ferdinando De Martino</div>
+        
+        <div id="questions-container"></div>
+        
+        <div class="totals">
+            <div id="total-si" class="total-si">Totale Sì: 0</div>
+            <div id="total-no" class="total-no">Totale No: 0</div>
+        </div>
+        
+        <div class="action-buttons">
+            <button id="save-btn" class="btn-action btn-save">SALVA</button>
+            <button id="reset-btn" class="btn-action btn-reset">RESET</button>
+        </div>
+        
+        <button id="quesiti-btn" class="btn-action btn-quesiti">Scopri i Quesiti</button>
+        
+        <div id="quesiti-info" class="quesiti-container">
+            <div class="quesito">
+                <div class="quesito-title">Quesito 1 - Contratto di lavoro a tutele crescenti</div>
+                <div class="quesito-text">Disciplina dei licenziamenti illegittimi: Abrogazione. Questo quesito riguarda il Jobs Act e propone l'abrogazione della disciplina sui licenziamenti previsti dal contratto a tutele crescenti.</div>
+            </div>
+            <div class="quesito">
+                <div class="quesito-title">Quesito 2 - Piccole imprese</div>
+                <div class="quesito-text">Licenziamenti e relativa indennità: Abrogazione parziale. Questo quesito mira a rimuovere il limite all'indennità per i licenziamenti nelle piccole imprese.</div>
+            </div>
+            <div class="quesito">
+                <div class="quesito-title">Quesito 3 - Contratti a termine</div>
+                <div class="quesito-text">Abrogazione parziale di norme in materia di apposizione di termine al contratto di lavoro subordinato, durata massima e condizioni per proroghe e rinnovi.</div>
+            </div>
+            <div class="quesito">
+                <div class="quesito-title">Quesito 4 - Responsabilità solidale</div>
+                <div class="quesito-text">Esclusione della responsabilità solidale del committente, dell'appaltatore e del subappaltatore per infortuni subiti dal lavoratore dipendente di impresa appaltatrice o subappaltatrice.</div>
+            </div>
+            <div class="quesito">
+                <div class="quesito-title">Quesito 5 - Cittadinanza italiana</div>
+                <div class="quesito-text">Dimezzamento da 10 a 5 anni dei tempi di residenza legale in Italia dello straniero maggiorenne extracomunitario per la richiesta di concessione della cittadinanza italiana.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Inizializza i conteggi
+        let counts = {
+            si: [0, 0, 0, 0, 0],
+            no: [0, 0, 0, 0, 0],
+            totalSi: 0,
+            totalNo: 0
+        };
+
+        // Carica i dati salvati
+        function loadCounts() {
+            const savedCounts = localStorage.getItem('noSiCounts');
+            if (savedCounts) {
+                counts = JSON.parse(savedCounts);
+                updateTotals();
+            }
+        }
+
+        // Salva i dati
+        function saveCounts() {
+            localStorage.setItem('noSiCounts', JSON.stringify(counts));
+        }
+
+        // Aggiorna i totali
+        function updateTotals() {
+            counts.totalSi = counts.si.reduce((a, b) => a + b, 0);
+            counts.totalNo = counts.no.reduce((a, b) => a + b, 0);
+            
+            document.getElementById('total-si').textContent = `Totale Sì: ${counts.totalSi}`;
+            document.getElementById('total-no').textContent = `Totale No: ${counts.totalNo}`;
+            
+            saveCounts();
+        }
+
+        // Genera il contenuto per l'esportazione nel NUOVO FORMATO
+        function generateExportContent() {
+            let content = '';
+            for (let i = 0; i < 5; i++) {
+                content += `Quesito ${i+1} ha ottenuto ${counts.si[i]} si e ${counts.no[i]} no\n`;
+            }
+            content += `\nIl seggio ha ottenuto un totale di ${counts.totalSi} si e ${counts.totalNo} no`;
+            return content;
+        }
+
+        // Aggiungi un voto Sì
+        function addSi(index) {
+            counts.si[index]++;
+            document.getElementById(`count-si-${index}`).textContent = counts.si[index];
+            updateTotals();
+        }
+
+        // Aggiungi un voto No
+        function addNo(index) {
+            counts.no[index]++;
+            document.getElementById(`count-no-${index}`).textContent = counts.no[index];
+            updateTotals();
+        }
+
+        // Resetta tutti i conteggi
+        function resetCounts() {
+            if (confirm('Sei sicuro di voler resettare tutti i conteggi?')) {
+                counts.si = [0, 0, 0, 0, 0];
+                counts.no = [0, 0, 0, 0, 0];
+                
+                for (let i = 0; i < 5; i++) {
+                    document.getElementById(`count-si-${i}`).textContent = '0';
+                    document.getElementById(`count-no-${i}`).textContent = '0';
+                }
+                
+                updateTotals();
+            }
+        }
+
+        // Scarica il file di testo con il NUOVO FORMATO
+        function saveToTextFile() {
+            const content = generateExportContent();
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'risultati_seggio.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Mostra/nascondi i quesiti
+        function toggleQuesiti() {
+            const quesitiInfo = document.getElementById('quesiti-info');
+            const btn = document.getElementById('quesiti-btn');
+            
+            if (quesitiInfo.style.display === 'none') {
+                quesitiInfo.style.display = 'block';
+                btn.textContent = 'Nascondi Quesiti';
+            } else {
+                quesitiInfo.style.display = 'none';
+                btn.textContent = 'Scopri i Quesiti';
+            }
+        }
+
+        // Crea l'interfaccia delle domande
+        function createQuestions() {
+            const container = document.getElementById('questions-container');
+            
+            for (let i = 0; i < 5; i++) {
+                const row = document.createElement('div');
+                row.className = 'question-row';
+                
+                const number = document.createElement('div');
+                number.className = 'question-number';
+                number.textContent = `QUESITO ${i+1}`;
+                
+                const voteSection = document.createElement('div');
+                voteSection.className = 'vote-section';
+                
+                const btnSi = document.createElement('button');
+                btnSi.className = 'btn-vote btn-si';
+                btnSi.textContent = 'Si';
+                btnSi.onclick = () => addSi(i);
+                
+                const countSi = document.createElement('div');
+                countSi.className = 'count count-si';
+                countSi.id = `count-si-${i}`;
+                countSi.textContent = counts.si[i];
+                
+                const btnNo = document.createElement('button');
+                btnNo.className = 'btn-vote btn-no';
+                btnNo.textContent = 'No';
+                btnNo.onclick = () => addNo(i);
+                
+                const countNo = document.createElement('div');
+                countNo.className = 'count count-no';
+                countNo.id = `count-no-${i}`;
+                countNo.textContent = counts.no[i];
+                
+                voteSection.appendChild(btnSi);
+                voteSection.appendChild(countSi);
+                voteSection.appendChild(btnNo);
+                voteSection.appendChild(countNo);
+                
+                row.appendChild(number);
+                row.appendChild(voteSection);
+                
+                container.appendChild(row);
+            }
+        }
+
+        // Inizializza l'applicazione
+        function init() {
+            loadCounts();
+            createQuestions();
+            updateTotals();
+            
+            document.getElementById('reset-btn').addEventListener('click', resetCounts);
+            document.getElementById('save-btn').addEventListener('click', saveToTextFile);
+            document.getElementById('quesiti-btn').addEventListener('click', toggleQuesiti);
+            
+            // Nascondi i quesiti all'inizio
+            document.getElementById('quesiti-info').style.display = 'none';
+        }
+
+        // Avvia l'applicazione quando la pagina è caricata
+        window.onload = init;
+    </script>
+</body>
+</html>
